@@ -7,14 +7,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth"; // imported from firebase
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_AVATAR } from "../utils/constants";
+import { BG_IMAGE } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const email = useRef(null);
@@ -47,8 +48,7 @@ const Login = () => {
           //signup logic taken from firebase -Update a user's profile
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://www.apple.com/v/os/b/images/shared/liquid_glass/lock_screen__bd82spxl9k9u_large.jpg",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -80,8 +80,6 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -101,7 +99,7 @@ const Login = () => {
       <div className="absolute top-0 left-0 w-full h-full -z-10">
         <img
           className="w-full h-full object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/75b0ed49-75ab-4a63-bd45-37bc2c95cb73/web/IN-en-20250623-TRIFECTA-perspective_ae5833b7-6ce5-4e88-853e-014f38c506f1_large.jpg"
+          src={BG_IMAGE}
           alt="BGLOGO"
         />
       </div>
